@@ -1,140 +1,204 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Dynamic Gradient Boxes</title>
-  <style>
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: #000000;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Login</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
     }
 
     body {
-      aspect-ratio: 9/16;
-      max-width: 100vw;
-      max-height: 100vh;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        overflow: hidden;
+        position: relative;
     }
 
-    .welcome-box {
-      padding: 50px;
-      border-radius: 15px;
-      border: 1px solid transparent;
-      position: relative;
-      background-color: rgba(255, 163, 203, 0.9);
-      animation: glow 4s linear infinite;
-      box-shadow: 0 0 40px rgb(255, 0, 0);
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      cursor: pointer;
+    /* SINGLE VIDEO BACKGROUND */
+    .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
     }
 
-    .welcome-box::before {
-      content: "";
-      position: absolute;
-      top: -5px;
-      left: -5px;
-      right: -5px;
-      bottom: -5px;
-      background: linear-gradient(45deg,
-        #ff1493, #00ff7f, #ffd700, #1e90ff, #ff4500, #00ffff, #ff69b4, #7fff00);
-      background-size: 400% 400%;
-      z-index: -1;
-      filter: blur(15px);
-      animation: colorCycle 5s linear infinite;
-      border-radius: 25px;
+    .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* NO ROUND - FULL SCREEN */
     }
 
-    .text-box {
-      padding: 20px;
-      border-radius: 20px;
-      font-size: 25px;
-      font-weight: bold;
-      text-transform: uppercase;
-      color: black;
-      text-align: center;
-      transition: background 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-    }
-
-    .text-box.english {
-      background: #9bbfff;
-      border: 5px solid #ff4040;
-    }
-
-    .text-box.hinglish {
-      background: #9cd3d3;
-      border: 5px solid #c300d1;
-    }
-
-    .text-box:active, .text-box:hover {
-      background: #00ff59;
-      box-shadow: 0 0 20px rgba(28, 3, 255, 0.8);
-    }
-
-    .animated-text span {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 1s forwards;
-    }
-
-    @keyframes colorCycle {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes glow {
-      0%, 100% {
-        box-shadow: 0 0 40px rgb(16, 255, 223);
-      }
-      50% {
-        box-shadow: 0 0 60px rgba(255, 255, 255, 0.4);
-      }
+    .login-container {
+        width: 340px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 20px;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        color: white;
+        animation: fadeInUp 1s ease;
+        z-index: 10;
+        position: relative;
     }
 
     @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-  </style>
+
+    .login-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: 1px;
+    }
+
+    .input-group {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px 40px 12px 12px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    .input-group label {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        color: #ddd;
+        transform: translateY(-50%);
+        pointer-events: none;
+        transition: 0.3s;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+        top: -10px;
+        left: 8px;
+        font-size: 12px;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 0 5px;
+        border-radius: 5px;
+    }
+
+    .input-group .fa {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .error {
+        text-align: center;
+        color: #ff4d4d;
+        font-size: 14px;
+        margin-top: 10px;
+        display: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 400px) {
+        .login-container {
+            width: 90%;
+            padding: 30px 20px;
+        }
+    }
+</style>
 </head>
 <body>
-  <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/31/audio_3f6b35294c.mp3?filename=space-ambient-112925.mp3" type="audio/mp3">
-    Your browser does not support the audio element.
-  </audio>
-  <div class="welcome-box">
-    <div class="text-box english" onclick="window.location.href='https://75raj.github.io/7/'">
-      <div class="animated-text">
-        <!-- Replace this with your past message text, example: -->
-       PAST MESSAGE</div>
-    </div>
-    <div class="text-box hinglish" onclick="window.location.href='https://75raj.github.io/R5/'">
-      <div class="animated-text">
-        <span>2</span><span>5</span><span>-</span><span>1</span><span>0</span><span>-</span><span>2</span><span>0</span><span>2</span><span>5</span>
-        <span> </span><span>N</span><span>E</span><span>W</span>
-        <span> </span><span>L</span><span>A</span><span>S</span><span>T</span>
-        <span> </span><span>M</span><span>E</span><span>S</span><span>S</span><span>A</span><span>G</span><span>E</span>
-      </div>
-    </div>
-  </div>
+
+<!-- SINGLE VIDEO BACKGROUND -->
+<div class="video-background">
+    <video src="V (1).mp4" muted autoplay loop></video>
+</div>
+
+<div class="login-container">
+    <h2>Enter Password</h2>
+    <H4>USE WIFE </H4>
+    <form onsubmit="return checkPassword(event)">
+        <div class="input-group">
+            <input type="password" id="password" placeholder=" " required>
+            <label for="password">Password</label>
+            <i class="fa fa-lock"></i>
+        </div>
+        <button type="submit">Login</button>
+        <div class="error" id="error">Incorrect password</div>
+    </form>
+</div>
+
+<script>
+function checkPassword(e) {
+    e.preventDefault();
+    const pass = document.getElementById("password").value;
+    const error = document.getElementById("error");
+    
+    // 3 VALID PASSWORDS
+    const validPasswords = ["yn@27", "7", "27"];
+    
+    if (validPasswords.includes(pass)) {
+        window.location.href = "https://75raj.github.io/L1/";
+    } else {
+        error.style.display = "block";
+        setTimeout(() => error.style.display = "none", 2000);
+    }
+}
+
+// START VIDEO AUTOMATICALLY
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.querySelector('video');
+    video.play().catch(e => console.log('Video play failed:', e));
+});
+</script>
+
 </body>
 </html>
