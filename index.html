@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sorry Page</title>
+  <style>
+    html, body {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: #000;
+      color: #fff;
+      font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .stage {
+      text-align: center;
+      max-width: 900px;
+      padding: 40px;
+    }
+
+    /* Snake/Shimmer effect text */
+    .message {
+      background: linear-gradient(90deg, #7f00ff, #00ffff, #7f00ff) -100% / 200%;
+      -webkit-background-clip: text;
+              background-clip: text;
+      color: transparent;
+      font-weight: 900;
+      font-size: clamp(28px, 6vw, 60px);
+      animation: shimmer 3s linear infinite;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 100%;
+      }
+    }
+
+    .sub {
+      font-weight: 500;
+      margin-top: 10px;
+      font-size: clamp(16px, 2vw, 22px);
+      opacity: 0.9;
+      color: #ccc;
+    }
+
+    .leave-btn {
+      margin-top: 28px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 22px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .leave-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    footer {
+      position: fixed;
+      left: 16px;
+      bottom: 12px;
+      z-index: 3;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 600px) {
+      .message { font-size: 26px; }
+      .stage { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <h1 class="message">
+      Sorry ji... I really didn’t mean to, but I ended up doing it. Truly sorry from the heart. Please don’t be upset — it’s study time now. ❤️
+    </h1>
+
+    <div class="sub">
+      Everything’s okay now.<br>Focus & rise again 🚀
+    </div>
+
+    <button class="leave-btn" onclick="leave()">Leave site</button>
+  </main>
+
+  <footer>© rishi</footer>
+
+  <script>
+    function leave() {
+      document.body.style.transition = 'opacity .6s ease';
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        try {
+          if (history.length > 1) history.back();
+          else window.close();
+        } catch (e) {
+          window.location.href = 'about:blank';
+        }
+      }, 650);
+    }
+
+    // Auto "Bye Bye" at 30s and close at 40s
+    setTimeout(() => {
+      document.querySelector('.message').textContent = 'Bye Bye 👋';
+    }, 30000);
+
+    setTimeout(() => {
+      leave();
+    }, 40000);
+  </script>
+</body>
+</html>
